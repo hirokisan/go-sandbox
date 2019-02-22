@@ -1,10 +1,19 @@
 package main
 
 import (
-	"github.com/hirokisan/go-sandbox/lib/logger"
+    "fmt"
+    "log"
+    "net/http"
 )
 
+func hello_world(w http.ResponseWriter, r *http.Request){
+    fmt.Fprintf(w, "Hello World")
+}
+
 func main() {
-	logger := logger.Logger(logger.NewLogrusLogger())
-	logger.Info("aaaa")
+    http.HandleFunc("/", hello_world)
+
+    if err := http.ListenAndServe(":3000", nil); err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }
