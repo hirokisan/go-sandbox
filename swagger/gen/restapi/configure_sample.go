@@ -14,7 +14,7 @@ import (
 	"github.com/hirokisan/go-sandbox/swagger/gen/restapi/operations/items"
 )
 
-//go:generate swagger generate server --target ../../gen --name Sample --spec ../../swagger.yml --exclude-main
+//go:generate swagger generate server --target ../../gen --name Sample --spec ../../src/swagger.yml --exclude-main
 
 func configureFlags(api *operations.SampleAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
