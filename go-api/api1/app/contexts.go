@@ -47,9 +47,9 @@ func NewShowBottleContext(ctx context.Context, r *http.Request, service *goa.Ser
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *ShowBottleContext) OK(r *GoaExampleBottle) error {
+func (ctx *ShowBottleContext) OK(r *Bottle) error {
 	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.example.bottle+json")
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.bottle+json")
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }

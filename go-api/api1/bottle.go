@@ -21,7 +21,7 @@ func (c *BottleController) Show(ctx *app.ShowBottleContext) error {
 
 	// Put your logic here
 
-	res := &app.GoaExampleBottle{}
+	res := &app.Bottle{}
 	return ctx.OK(res)
 	// BottleController_Show: end_implement
 }

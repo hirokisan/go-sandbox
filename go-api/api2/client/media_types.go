@@ -17,8 +17,8 @@ import (
 
 // A sample of wine (default view)
 //
-// Identifier: application/vnd.goa.example.sample+json; view=default
-type GoaExampleSample struct {
+// Identifier: application/vnd.sample+json; view=default
+type Sample struct {
 	// API href for making requests on the sample
 	Href string `form:"href" json:"href" yaml:"href" xml:"href"`
 	// Unique sample ID
@@ -27,8 +27,8 @@ type GoaExampleSample struct {
 	Name string `form:"name" json:"name" yaml:"name" xml:"name"`
 }
 
-// Validate validates the GoaExampleSample media type instance.
-func (mt *GoaExampleSample) Validate() (err error) {
+// Validate validates the Sample media type instance.
+func (mt *Sample) Validate() (err error) {
 
 	if mt.Href == "" {
 		err = goa.MergeErrors(err, goa.MissingAttributeError(`response`, "href"))
@@ -39,9 +39,9 @@ func (mt *GoaExampleSample) Validate() (err error) {
 	return
 }
 
-// DecodeGoaExampleSample decodes the GoaExampleSample instance encoded in resp body.
-func (c *Client) DecodeGoaExampleSample(resp *http.Response) (*GoaExampleSample, error) {
-	var decoded GoaExampleSample
+// DecodeSample decodes the Sample instance encoded in resp body.
+func (c *Client) DecodeSample(resp *http.Response) (*Sample, error) {
+	var decoded Sample
 	err := c.Decoder.Decode(&decoded, resp.Body, resp.Header.Get("Content-Type"))
 	return &decoded, err
 }

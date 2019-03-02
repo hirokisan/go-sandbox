@@ -28,7 +28,7 @@ var _ = Resource("bottle", func() { // Resources group related API endpoints
 })
 
 // BottleMedia defines the media type used to render bottles.
-var BottleMedia = MediaType("application/vnd.goa.example.bottle+json", func() {
+var BottleMedia = MediaType("application/vnd.bottle+json", func() {
 	Description("A bottle of wine")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique bottle ID")

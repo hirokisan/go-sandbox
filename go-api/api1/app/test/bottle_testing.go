@@ -89,7 +89,7 @@ func ShowBottleNotFound(t goatest.TInterface, ctx context.Context, service *goa.
 // It returns the response writer so it's possible to inspect the response headers and the media type struct written to the response.
 // If ctx is nil then context.Background() is used.
 // If service is nil then a default service is created.
-func ShowBottleOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.BottleController, bottleID int) (http.ResponseWriter, *app.GoaExampleBottle) {
+func ShowBottleOK(t goatest.TInterface, ctx context.Context, service *goa.Service, ctrl app.BottleController, bottleID int) (http.ResponseWriter, *app.Bottle) {
 	// Setup service
 	var (
 		logBuf bytes.Buffer
@@ -142,12 +142,12 @@ func ShowBottleOK(t goatest.TInterface, ctx context.Context, service *goa.Servic
 	if rw.Code != 200 {
 		t.Errorf("invalid response status code: got %+v, expected 200", rw.Code)
 	}
-	var mt *app.GoaExampleBottle
+	var mt *app.Bottle
 	if resp != nil {
 		var _ok bool
-		mt, _ok = resp.(*app.GoaExampleBottle)
+		mt, _ok = resp.(*app.Bottle)
 		if !_ok {
-			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of app.GoaExampleBottle", resp, resp)
+			t.Fatalf("invalid response media: got variable of type %T, value %+v, expected instance of app.Bottle", resp, resp)
 		}
 		_err = mt.Validate()
 		if _err != nil {

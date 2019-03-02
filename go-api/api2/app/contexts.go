@@ -47,9 +47,9 @@ func NewShowSampleContext(ctx context.Context, r *http.Request, service *goa.Ser
 }
 
 // OK sends a HTTP response with status code 200.
-func (ctx *ShowSampleContext) OK(r *GoaExampleSample) error {
+func (ctx *ShowSampleContext) OK(r *Sample) error {
 	if ctx.ResponseData.Header().Get("Content-Type") == "" {
-		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.example.sample+json")
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.sample+json")
 	}
 	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
 }

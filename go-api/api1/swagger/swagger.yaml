@@ -4,7 +4,7 @@ consumes:
 - application/gob
 - application/x-gob
 definitions:
-  GoaExampleBottle:
+  Bottle:
     description: A bottle of wine (default view)
     example:
       href: Voluptates non excepturi.
@@ -28,7 +28,7 @@ definitions:
     - id
     - href
     - name
-    title: 'Mediatype identifier: application/vnd.goa.example.bottle+json; view=default'
+    title: 'Mediatype identifier: application/vnd.bottle+json; view=default'
     type: object
 host: localhost:8080
 info:
@@ -47,12 +47,12 @@ paths:
         required: true
         type: integer
       produces:
-      - application/vnd.goa.example.bottle+json
+      - application/vnd.bottle+json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/GoaExampleBottle'
+            $ref: '#/definitions/Bottle'
         "404":
           description: Not Found
       schemes:
@@ -71,7 +71,7 @@ responses:
   OK:
     description: OK
     schema:
-      $ref: '#/definitions/GoaExampleBottle'
+      $ref: '#/definitions/Bottle'
 schemes:
 - http
 swagger: "2.0"

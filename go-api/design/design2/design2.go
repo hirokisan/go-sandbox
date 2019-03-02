@@ -27,7 +27,7 @@ var _ = Resource("sample", func() { // Resources group related API endpoints
 	})
 })
 
-var SampleMedia = MediaType("application/vnd.goa.example.sample+json", func() {
+var SampleMedia = MediaType("application/vnd.sample+json", func() {
 	Description("A sample of wine")
 	Attributes(func() { // Attributes define the media type shape.
 		Attribute("id", Integer, "Unique sample ID")

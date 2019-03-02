@@ -4,7 +4,7 @@ consumes:
 - application/gob
 - application/x-gob
 definitions:
-  GoaExampleSample:
+  Sample:
     description: A sample of wine (default view)
     example:
       href: Temporibus cupiditate.
@@ -28,7 +28,7 @@ definitions:
     - id
     - href
     - name
-    title: 'Mediatype identifier: application/vnd.goa.example.sample+json; view=default'
+    title: 'Mediatype identifier: application/vnd.sample+json; view=default'
     type: object
 host: localhost:8080
 info:
@@ -47,12 +47,12 @@ paths:
         required: true
         type: integer
       produces:
-      - application/vnd.goa.example.sample+json
+      - application/vnd.sample+json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/GoaExampleSample'
+            $ref: '#/definitions/Sample'
         "404":
           description: Not Found
       schemes:
@@ -71,7 +71,7 @@ responses:
   OK:
     description: OK
     schema:
-      $ref: '#/definitions/GoaExampleSample'
+      $ref: '#/definitions/Sample'
 schemes:
 - http
 swagger: "2.0"
