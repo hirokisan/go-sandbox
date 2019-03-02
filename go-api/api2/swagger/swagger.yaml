@@ -1,0 +1,77 @@
+consumes:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+definitions:
+  GoaExampleSample:
+    description: A sample of wine (default view)
+    example:
+      href: Temporibus cupiditate.
+      id: 8032753467117778126
+      name: Nihil quod.
+    properties:
+      href:
+        description: API href for making requests on the sample
+        example: Temporibus cupiditate.
+        type: string
+      id:
+        description: Unique sample ID
+        example: 8032753467117778126
+        format: int64
+        type: integer
+      name:
+        description: Name of wine
+        example: Nihil quod.
+        type: string
+    required:
+    - id
+    - href
+    - name
+    title: 'Mediatype identifier: application/vnd.goa.example.sample+json; view=default'
+    type: object
+host: localhost:8080
+info:
+  description: A simple goa service
+  title: The virtual wine sample
+  version: ""
+paths:
+  /sample/{bottleID}:
+    get:
+      description: Get sample by id
+      operationId: sample#show
+      parameters:
+      - description: sample ID
+        in: path
+        name: bottleID
+        required: true
+        type: integer
+      produces:
+      - application/vnd.goa.example.sample+json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GoaExampleSample'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show sample
+      tags:
+      - sample
+produces:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+responses:
+  NotFound:
+    description: Not Found
+  OK:
+    description: OK
+    schema:
+      $ref: '#/definitions/GoaExampleSample'
+schemes:
+- http
+swagger: "2.0"

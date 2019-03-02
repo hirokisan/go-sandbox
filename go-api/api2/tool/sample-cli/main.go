@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	goaclient "github.com/goadesign/goa/client"
-	"github.com/hirokisan/go-sandbox/go-api/client"
-	"github.com/hirokisan/go-sandbox/go-api/tool/cli"
+	"github.com/hirokisan/go-sandbox/go-api/api2/client"
+	"github.com/hirokisan/go-sandbox/go-api/api2/tool/cli"
 	"github.com/spf13/cobra"
 	"net/http"
 	"os"
@@ -14,8 +14,8 @@ import (
 func main() {
 	// Create command line parser
 	app := &cobra.Command{
-		Use:   "cellar-cli",
-		Short: `CLI client for the cellar service`,
+		Use:   "sample-cli",
+		Short: `CLI client for the sample service`,
 	}
 
 	// Create client struct
@@ -29,7 +29,7 @@ func main() {
 	app.PersistentFlags().BoolVar(&c.Dump, "dump", false, "Dump HTTP request and response.")
 
 	// Initialize API client
-	c.UserAgent = "cellar-cli/0"
+	c.UserAgent = "sample-cli/0"
 
 	// Register API commands
 	cli.RegisterCommands(app, c)

@@ -4,8 +4,8 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/hirokisan/go-sandbox/go-api/design
-// --out=$(GOPATH)/src/github.com/hirokisan/go-sandbox/go-api
+// --design=github.com/hirokisan/go-sandbox/go-api/design/design1
+// --out=$(GOPATH)/src/github.com/hirokisan/go-sandbox/go-api/api1
 // --version=v1.3.1
 
 package client

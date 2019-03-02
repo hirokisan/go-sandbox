@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/goadesign/goa"
-	"github.com/hirokisan/go-sandbox/go-api/app"
+	"github.com/hirokisan/go-sandbox/go-api/api1/app"
 )
 
 // BottleController implements the bottle resource.
