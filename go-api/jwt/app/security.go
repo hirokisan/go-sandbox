@@ -21,6 +21,17 @@ type (
 	authMiddlewareKey string
 )
 
+// UseBasicAuthMiddleware mounts the basic_auth auth middleware onto the service.
+func UseBasicAuthMiddleware(service *goa.Service, middleware goa.Middleware) {
+	service.Context = context.WithValue(service.Context, authMiddlewareKey("basic_auth"), middleware)
+}
+
+// NewBasicAuthSecurity creates a basic_auth security definition.
+func NewBasicAuthSecurity() *goa.BasicAuthSecurity {
+	def := goa.BasicAuthSecurity{}
+	return &def
+}
+
 // UseJWTMiddleware mounts the jwt auth middleware onto the service.
 func UseJWTMiddleware(service *goa.Service, middleware goa.Middleware) {
 	service.Context = context.WithValue(service.Context, authMiddlewareKey("jwt"), middleware)
@@ -36,6 +47,17 @@ func NewJWTSecurity() *goa.JWTSecurity {
 			"api:access": "API access",
 		},
 	}
+	return &def
+}
+
+// UseSigninBasicAuthMiddleware mounts the SigninBasicAuth auth middleware onto the service.
+func UseSigninBasicAuthMiddleware(service *goa.Service, middleware goa.Middleware) {
+	service.Context = context.WithValue(service.Context, authMiddlewareKey("SigninBasicAuth"), middleware)
+}
+
+// NewSigninBasicAuthSecurity creates a SigninBasicAuth security definition.
+func NewSigninBasicAuthSecurity() *goa.BasicAuthSecurity {
+	def := goa.BasicAuthSecurity{}
 	return &def
 }
 

@@ -17,6 +17,66 @@ import (
 	"strconv"
 )
 
+// SecureBasicContext provides the basic secure action context.
+type SecureBasicContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+}
+
+// NewSecureBasicContext parses the incoming request URL and body, performs validations and creates the
+// context used by the basic controller secure action.
+func NewSecureBasicContext(ctx context.Context, r *http.Request, service *goa.Service) (*SecureBasicContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := SecureBasicContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *SecureBasicContext) OK(r *Success) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.examples.security.success")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
+// Unauthorized sends a HTTP response with status code 401.
+func (ctx *SecureBasicContext) Unauthorized() error {
+	ctx.ResponseData.WriteHeader(401)
+	return nil
+}
+
+// UnsecureBasicContext provides the basic unsecure action context.
+type UnsecureBasicContext struct {
+	context.Context
+	*goa.ResponseData
+	*goa.RequestData
+}
+
+// NewUnsecureBasicContext parses the incoming request URL and body, performs validations and creates the
+// context used by the basic controller unsecure action.
+func NewUnsecureBasicContext(ctx context.Context, r *http.Request, service *goa.Service) (*UnsecureBasicContext, error) {
+	var err error
+	resp := goa.ContextResponse(ctx)
+	resp.Service = service
+	req := goa.ContextRequest(ctx)
+	req.Request = r
+	rctx := UnsecureBasicContext{Context: ctx, ResponseData: resp, RequestData: req}
+	return &rctx, err
+}
+
+// OK sends a HTTP response with status code 200.
+func (ctx *UnsecureBasicContext) OK(r *Success) error {
+	if ctx.ResponseData.Header().Get("Content-Type") == "" {
+		ctx.ResponseData.Header().Set("Content-Type", "application/vnd.goa.examples.security.success")
+	}
+	return ctx.ResponseData.Service.Send(ctx.Context, 200, r)
+}
+
 // SecureJWTContext provides the jwt secure action context.
 type SecureJWTContext struct {
 	context.Context

@@ -18,9 +18,11 @@ import (
 // Client is the jwt service client.
 type Client struct {
 	*goaclient.Client
-	JWTSigner goaclient.Signer
-	Encoder   *goa.HTTPEncoder
-	Decoder   *goa.HTTPDecoder
+	BasicAuthSigner       goaclient.Signer
+	JWTSigner             goaclient.Signer
+	SigninBasicAuthSigner goaclient.Signer
+	Encoder               *goa.HTTPEncoder
+	Decoder               *goa.HTTPDecoder
 }
 
 // New instantiates the client.
@@ -46,7 +48,17 @@ func New(c goaclient.Doer) *Client {
 	return client
 }
 
+// SetBasicAuthSigner sets the request signer for the basic_auth security scheme.
+func (c *Client) SetBasicAuthSigner(signer goaclient.Signer) {
+	c.BasicAuthSigner = signer
+}
+
 // SetJWTSigner sets the request signer for the jwt security scheme.
 func (c *Client) SetJWTSigner(signer goaclient.Signer) {
 	c.JWTSigner = signer
+}
+
+// SetSigninBasicAuthSigner sets the request signer for the SigninBasicAuth security scheme.
+func (c *Client) SetSigninBasicAuthSigner(signer goaclient.Signer) {
+	c.SigninBasicAuthSigner = signer
 }

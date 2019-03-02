@@ -42,8 +42,8 @@ func (c *Client) NewSecureJWTRequest(ctx context.Context, path string, fail *boo
 	u := url.URL{Host: c.Host, Scheme: scheme, Path: path}
 	values := u.Query()
 	if fail != nil {
-		tmp5 := strconv.FormatBool(*fail)
-		values.Set("fail", tmp5)
+		tmp7 := strconv.FormatBool(*fail)
+		values.Set("fail", tmp7)
 	}
 	u.RawQuery = values.Encode()
 	req, err := http.NewRequest("GET", u.String(), nil)
@@ -83,6 +83,11 @@ func (c *Client) NewSigninJWTRequest(ctx context.Context, path string) (*http.Re
 	req, err := http.NewRequest("POST", u.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+	if c.SigninBasicAuthSigner != nil {
+		if err := c.SigninBasicAuthSigner.Sign(req); err != nil {
+			return nil, err
+		}
 	}
 	return req, nil
 }

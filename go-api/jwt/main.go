@@ -8,6 +8,11 @@ import (
 	"github.com/hirokisan/go-sandbox/go-api/jwt/app"
 )
 
+var (
+	// ErrUnauthorized is the error returned for unauthorized requests.
+	ErrUnauthorized = goa.NewErrorClass("unauthorized", 401)
+)
+
 func main() {
 	// Create service
 	service := goa.New("")
@@ -20,7 +25,9 @@ func main() {
 
 	// JWT
 	jwtMiddleware, _ := NewJWTMiddleware()
+	app.UseBasicAuthMiddleware(service, NewBasicAuthMiddleware())
 	app.UseJWTMiddleware(service, jwtMiddleware)
+	app.UseSigninBasicAuthMiddleware(service, NewBasicAuthMiddleware())
 
 	// Mount "jwt" controller
 	c, _ := NewJWTController(service)

@@ -31,6 +31,50 @@ func initService(service *goa.Service) {
 	service.Decoder.Register(goa.NewJSONDecoder, "*/*")
 }
 
+// BasicController is the controller interface for the Basic actions.
+type BasicController interface {
+	goa.Muxer
+	Secure(*SecureBasicContext) error
+	Unsecure(*UnsecureBasicContext) error
+}
+
+// MountBasicController "mounts" a Basic resource controller on the given service.
+func MountBasicController(service *goa.Service, ctrl BasicController) {
+	initService(service)
+	var h goa.Handler
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewSecureBasicContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Secure(rctx)
+	}
+	h = handleSecurity("basic_auth", h)
+	service.Mux.Handle("GET", "/basic", ctrl.MuxHandler("secure", h, nil))
+	service.LogInfo("mount", "ctrl", "Basic", "action", "Secure", "route", "GET /basic", "security", "basic_auth")
+
+	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
+		// Check if there was an error loading the request
+		if err := goa.ContextError(ctx); err != nil {
+			return err
+		}
+		// Build the context
+		rctx, err := NewUnsecureBasicContext(ctx, req, service)
+		if err != nil {
+			return err
+		}
+		return ctrl.Unsecure(rctx)
+	}
+	service.Mux.Handle("GET", "/basic/unsecure", ctrl.MuxHandler("unsecure", h, nil))
+	service.LogInfo("mount", "ctrl", "Basic", "action", "Unsecure", "route", "GET /basic/unsecure")
+}
+
 // JWTController is the controller interface for the JWT actions.
 type JWTController interface {
 	goa.Muxer
@@ -72,8 +116,9 @@ func MountJWTController(service *goa.Service, ctrl JWTController) {
 		}
 		return ctrl.Signin(rctx)
 	}
+	h = handleSecurity("SigninBasicAuth", h)
 	service.Mux.Handle("POST", "/jwt/signin", ctrl.MuxHandler("signin", h, nil))
-	service.LogInfo("mount", "ctrl", "JWT", "action", "Signin", "route", "POST /jwt/signin")
+	service.LogInfo("mount", "ctrl", "JWT", "action", "Signin", "route", "POST /jwt/signin", "security", "SigninBasicAuth")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request

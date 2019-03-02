@@ -24,6 +24,42 @@ info:
   title: jwt
   version: ""
 paths:
+  /basic:
+    get:
+      description: This action is secure with the basic_auth scheme
+      operationId: basic#secure
+      produces:
+      - application/vnd.goa.examples.security.success
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Success'
+        "401":
+          description: Unauthorized
+      schemes:
+      - http
+      security:
+      - basic_auth: []
+      summary: secure basic
+      tags:
+      - basic
+  /basic/unsecure:
+    get:
+      description: This action does not require auth
+      operationId: basic#unsecure
+      produces:
+      - application/vnd.goa.examples.security.success
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Success'
+      schemes:
+      - http
+      summary: unsecure basic
+      tags:
+      - basic
   /jwt:
     get:
       description: |-
@@ -70,6 +106,8 @@ paths:
           description: Unauthorized
       schemes:
       - http
+      security:
+      - SigninBasicAuth: []
       summary: signin jwt
       tags:
       - jwt
@@ -104,6 +142,10 @@ responses:
 schemes:
 - http
 securityDefinitions:
+  SigninBasicAuth:
+    type: basic
+  basic_auth:
+    type: basic
   jwt:
     description: |2-
 

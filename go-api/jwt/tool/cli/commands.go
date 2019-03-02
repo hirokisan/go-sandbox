@@ -26,6 +26,16 @@ import (
 )
 
 type (
+	// SecureBasicCommand is the command line data structure for the secure action of basic
+	SecureBasicCommand struct {
+		PrettyPrint bool
+	}
+
+	// UnsecureBasicCommand is the command line data structure for the unsecure action of basic
+	UnsecureBasicCommand struct {
+		PrettyPrint bool
+	}
+
 	// SecureJWTCommand is the command line data structure for the secure action of jwt
 	SecureJWTCommand struct {
 		// Force auth failure via JWT validation middleware
@@ -49,25 +59,20 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	var command, sub *cobra.Command
 	command = &cobra.Command{
 		Use:   "secure",
-		Short: `This action is secured with the jwt scheme`,
+		Short: `secure action`,
 	}
-	tmp1 := new(SecureJWTCommand)
+	tmp1 := new(SecureBasicCommand)
 	sub = &cobra.Command{
-		Use:   `jwt ["/jwt"]`,
-		Short: `This resource uses JWT to secure its endpoints`,
+		Use:   `basic ["/basic"]`,
+		Short: `This resource uses basic auth to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
 	tmp1.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp1.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
-	app.AddCommand(command)
-	command = &cobra.Command{
-		Use:   "signin",
-		Short: `Creates a valid JWT`,
-	}
-	tmp2 := new(SigninJWTCommand)
+	tmp2 := new(SecureJWTCommand)
 	sub = &cobra.Command{
-		Use:   `jwt ["/jwt/signin"]`,
+		Use:   `jwt ["/jwt"]`,
 		Short: `This resource uses JWT to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -76,17 +81,40 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	command.AddCommand(sub)
 	app.AddCommand(command)
 	command = &cobra.Command{
-		Use:   "unsecure",
-		Short: `This action does not require auth`,
+		Use:   "signin",
+		Short: `Creates a valid JWT`,
 	}
-	tmp3 := new(UnsecureJWTCommand)
+	tmp3 := new(SigninJWTCommand)
 	sub = &cobra.Command{
-		Use:   `jwt ["/jwt/unsecure"]`,
+		Use:   `jwt ["/jwt/signin"]`,
 		Short: `This resource uses JWT to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
 	tmp3.RegisterFlags(sub, c)
 	sub.PersistentFlags().BoolVar(&tmp3.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	app.AddCommand(command)
+	command = &cobra.Command{
+		Use:   "unsecure",
+		Short: `unsecure action`,
+	}
+	tmp4 := new(UnsecureBasicCommand)
+	sub = &cobra.Command{
+		Use:   `basic ["/basic/unsecure"]`,
+		Short: `This resource uses basic auth to secure its endpoints`,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
+	}
+	tmp4.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp4.PrettyPrint, "pp", false, "Pretty print response body")
+	command.AddCommand(sub)
+	tmp5 := new(UnsecureJWTCommand)
+	sub = &cobra.Command{
+		Use:   `jwt ["/jwt/unsecure"]`,
+		Short: `This resource uses JWT to secure its endpoints`,
+		RunE:  func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
+	}
+	tmp5.RegisterFlags(sub, c)
+	sub.PersistentFlags().BoolVar(&tmp5.PrettyPrint, "pp", false, "Pretty print response body")
 	command.AddCommand(sub)
 	app.AddCommand(command)
 }
@@ -244,6 +272,54 @@ func boolArray(ins []string) ([]bool, error) {
 	return vals, nil
 }
 
+// Run makes the HTTP request corresponding to the SecureBasicCommand command.
+func (cmd *SecureBasicCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = "/basic"
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.SecureBasic(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *SecureBasicCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+}
+
+// Run makes the HTTP request corresponding to the UnsecureBasicCommand command.
+func (cmd *UnsecureBasicCommand) Run(c *client.Client, args []string) error {
+	var path string
+	if len(args) > 0 {
+		path = args[0]
+	} else {
+		path = "/basic/unsecure"
+	}
+	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
+	ctx := goa.WithLogger(context.Background(), logger)
+	resp, err := c.UnsecureBasic(ctx, path)
+	if err != nil {
+		goa.LogError(ctx, "failed", "err", err)
+		return err
+	}
+
+	goaclient.HandleResponse(c.Client, resp, cmd.PrettyPrint)
+	return nil
+}
+
+// RegisterFlags registers the command flags with the command line.
+func (cmd *UnsecureBasicCommand) RegisterFlags(cc *cobra.Command, c *client.Client) {
+}
+
 // Run makes the HTTP request corresponding to the SecureJWTCommand command.
 func (cmd *SecureJWTCommand) Run(c *client.Client, args []string) error {
 	var path string
@@ -254,16 +330,16 @@ func (cmd *SecureJWTCommand) Run(c *client.Client, args []string) error {
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
-	var tmp4 *bool
+	var tmp6 *bool
 	if cmd.Fail != "" {
 		var err error
-		tmp4, err = boolVal(cmd.Fail)
+		tmp6, err = boolVal(cmd.Fail)
 		if err != nil {
 			goa.LogError(ctx, "failed to parse flag into *bool value", "flag", "--fail", "err", err)
 			return err
 		}
 	}
-	resp, err := c.SecureJWT(ctx, path, tmp4)
+	resp, err := c.SecureJWT(ctx, path, tmp6)
 	if err != nil {
 		goa.LogError(ctx, "failed", "err", err)
 		return err

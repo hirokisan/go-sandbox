@@ -33,16 +33,20 @@ var _ = API("jwt", func() { // API defines the microservice endpoint and
 
 // BasicAuth defines a security scheme using basic authentication. The scheme protects the "signin"
 // action used to create JWTs.
-//var SigninBasicAuth = BasicAuthSecurity("SigninBasicAuth")
+var SigninBasicAuth = BasicAuthSecurity("SigninBasicAuth")
 
 // Resource jwt uses the JWTSecurity security scheme.
 var _ = Resource("jwt", func() {
 	Description("This resource uses JWT to secure its endpoints")
 	DefaultMedia(SuccessMedia)
 
+	Security(JWT, func() { // Use JWT to auth requests to this endpoint
+		Scope("api:access") // Enforce presence of "api" scope in JWT claims.
+	})
+
 	Action("signin", func() {
 		Description("Creates a valid JWT")
-		//Security(SigninBasicAuth)
+		Security(SigninBasicAuth)
 		Routing(POST("/jwt/signin"))
 		Response(NoContent, func() {
 			Headers(func() {
@@ -53,9 +57,6 @@ var _ = Resource("jwt", func() {
 	})
 
 	Action("secure", func() {
-		Security(JWT, func() { // Use JWT to auth requests to this endpoint
-			Scope("api:access") // Enforce presence of "api" scope in JWT claims.
-		})
 		Description("This action is secured with the jwt scheme")
 		Routing(GET("/jwt"))
 		Params(func() {
