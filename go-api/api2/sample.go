@@ -21,7 +21,7 @@ func (c *SampleController) Show(ctx *app.ShowSampleContext) error {
 
 	// Put your logic here
 
-	res := &app.GoaExampleSample{}
+	res := &app.Sample{}
 	return ctx.OK(res)
 	// SampleController_Show: end_implement
 }
