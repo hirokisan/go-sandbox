@@ -1,6 +1,6 @@
 # go-api
 
-## Install
+## Prepare
 ```
 $ go get -u github.com/goadesign/goa/...
 ```
@@ -11,9 +11,19 @@ $ touch design/xxx.go
 $ goagen bootstrap -d github.com/hirokisan/go-sandbox/go-api/design/xxx -o xxx
 ```
 
-## Run
+## Install
 ```
-$ go install ./api/...
+$ make install
+```
+
+## Create&Update design
+```
+$ API_NAME=xxx make design
+```
+
+## Create&Update API
+```
+$ API_NAME=xxx make api
 ```
 
 ## Todo
