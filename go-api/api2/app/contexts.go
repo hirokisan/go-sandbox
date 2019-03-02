@@ -4,7 +4,7 @@
 //
 // Command:
 // $ goagen
-// --design=github.com/hirokisan/go-sandbox/go-api/design/design2
+// --design=github.com/hirokisan/go-sandbox/go-api/design/api2
 // --out=$(GOPATH)/src/github.com/hirokisan/go-sandbox/go-api/api2
 // --version=v1.3.1
 
