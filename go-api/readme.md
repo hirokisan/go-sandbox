@@ -20,3 +20,4 @@ $ go install ./api/...
 - [ ] goaをバージョン管理する？
 - [ ] goaをforkして利用する？
 - [ ] Makefileで動作管理する
+- [ ] scaffoldを用意する？
