@@ -6,3 +6,5 @@ design:
 
 api:
 	goagen bootstrap -d github.com/hirokisan/go-sandbox/go-api/design/${API_NAME} -o ./${API_NAME}
+
+.PHONY: design
