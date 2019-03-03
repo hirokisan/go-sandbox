@@ -4,10 +4,18 @@ import (
 	"context"
 	"net/http"
 
+	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/goadesign/goa"
 	"github.com/hirokisan/go-sandbox/go-api/jwt/app"
 	"github.com/hirokisan/go-sandbox/go-api/lib/util"
 )
+
+type User struct {
+	Name string
+	Pass string
+}
 
 // NewBasicAuthMiddleware creates a middleware that checks for the presence of a basic auth header
 // and validates its content.
@@ -22,10 +30,19 @@ func NewBasicAuthMiddleware() goa.Middleware {
 				return ErrUnauthorized("missing auth")
 			}
 
-			//pass := "sample"
-			ph := "$2a$10$z0GL0ObLuhKp8e1I9ZRKUOjB8S9qFlnI4kI7iXB4QcKJHnclPXNLq=MISSING"
+			session, _ := mgo.Dial("mongodb://localhost/")
+			defer session.Close()
+			//u := &User{
+			//	Name: un,
+			//	Pass: ph,
+			//}
+			//err := session.DB("local").C("users").Insert(u)
+			var u User
+			if err := session.DB("local").C("users").Find(bson.M{"name": user}).One(&u); err != nil {
+			}
+		  goa.LogInfo(ctx, "user", u)
 
-			err := util.PasswordVerify(ph, pass)
+			err := util.PasswordVerify(u.Pass, pass)
 			if err != nil {
 				panic(err)
 			}
