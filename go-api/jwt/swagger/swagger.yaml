@@ -1,8 +1,6 @@
+basePath: /api/v1
 consumes:
 - application/json
-- application/xml
-- application/gob
-- application/x-gob
 definitions:
   Success:
     description: The common media type to all request responses for this example (default
@@ -22,7 +20,7 @@ host: localhost:8080
 info:
   description: jwt
   title: jwt
-  version: ""
+  version: v1
 paths:
   /basic:
     get:
@@ -129,9 +127,6 @@ paths:
       - jwt
 produces:
 - application/json
-- application/xml
-- application/gob
-- application/x-gob
 responses:
   OK:
     description: OK

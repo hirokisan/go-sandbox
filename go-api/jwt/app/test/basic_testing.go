@@ -49,7 +49,7 @@ func SecureBasicOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/basic"),
+		Path: fmt.Sprintf("/api/v1/basic"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -117,7 +117,7 @@ func SecureBasicUnauthorized(t goatest.TInterface, ctx context.Context, service 
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/basic"),
+		Path: fmt.Sprintf("/api/v1/basic"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
@@ -178,7 +178,7 @@ func UnsecureBasicOK(t goatest.TInterface, ctx context.Context, service *goa.Ser
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/basic/unsecure"),
+		Path: fmt.Sprintf("/api/v1/basic/unsecure"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

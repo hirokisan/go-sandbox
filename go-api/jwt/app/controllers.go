@@ -20,11 +20,7 @@ import (
 func initService(service *goa.Service) {
 	// Setup encoders and decoders
 	service.Encoder.Register(goa.NewJSONEncoder, "application/json")
-	service.Encoder.Register(goa.NewGobEncoder, "application/gob", "application/x-gob")
-	service.Encoder.Register(goa.NewXMLEncoder, "application/xml")
 	service.Decoder.Register(goa.NewJSONDecoder, "application/json")
-	service.Decoder.Register(goa.NewGobDecoder, "application/gob", "application/x-gob")
-	service.Decoder.Register(goa.NewXMLDecoder, "application/xml")
 
 	// Setup default encoder and decoder
 	service.Encoder.Register(goa.NewJSONEncoder, "*/*")
@@ -56,8 +52,8 @@ func MountBasicController(service *goa.Service, ctrl BasicController) {
 		return ctrl.Secure(rctx)
 	}
 	h = handleSecurity("basic_auth", h)
-	service.Mux.Handle("GET", "/basic", ctrl.MuxHandler("secure", h, nil))
-	service.LogInfo("mount", "ctrl", "Basic", "action", "Secure", "route", "GET /basic", "security", "basic_auth")
+	service.Mux.Handle("GET", "/api/v1/basic", ctrl.MuxHandler("secure", h, nil))
+	service.LogInfo("mount", "ctrl", "Basic", "action", "Secure", "route", "GET /api/v1/basic", "security", "basic_auth")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -71,8 +67,8 @@ func MountBasicController(service *goa.Service, ctrl BasicController) {
 		}
 		return ctrl.Unsecure(rctx)
 	}
-	service.Mux.Handle("GET", "/basic/unsecure", ctrl.MuxHandler("unsecure", h, nil))
-	service.LogInfo("mount", "ctrl", "Basic", "action", "Unsecure", "route", "GET /basic/unsecure")
+	service.Mux.Handle("GET", "/api/v1/basic/unsecure", ctrl.MuxHandler("unsecure", h, nil))
+	service.LogInfo("mount", "ctrl", "Basic", "action", "Unsecure", "route", "GET /api/v1/basic/unsecure")
 }
 
 // JWTController is the controller interface for the JWT actions.
@@ -101,8 +97,8 @@ func MountJWTController(service *goa.Service, ctrl JWTController) {
 		return ctrl.Secure(rctx)
 	}
 	h = handleSecurity("jwt", h, "api:access")
-	service.Mux.Handle("GET", "/jwt", ctrl.MuxHandler("secure", h, nil))
-	service.LogInfo("mount", "ctrl", "JWT", "action", "Secure", "route", "GET /jwt", "security", "jwt")
+	service.Mux.Handle("GET", "/api/v1/jwt", ctrl.MuxHandler("secure", h, nil))
+	service.LogInfo("mount", "ctrl", "JWT", "action", "Secure", "route", "GET /api/v1/jwt", "security", "jwt")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -117,8 +113,8 @@ func MountJWTController(service *goa.Service, ctrl JWTController) {
 		return ctrl.Signin(rctx)
 	}
 	h = handleSecurity("SigninBasicAuth", h)
-	service.Mux.Handle("POST", "/jwt/signin", ctrl.MuxHandler("signin", h, nil))
-	service.LogInfo("mount", "ctrl", "JWT", "action", "Signin", "route", "POST /jwt/signin", "security", "SigninBasicAuth")
+	service.Mux.Handle("POST", "/api/v1/jwt/signin", ctrl.MuxHandler("signin", h, nil))
+	service.LogInfo("mount", "ctrl", "JWT", "action", "Signin", "route", "POST /api/v1/jwt/signin", "security", "SigninBasicAuth")
 
 	h = func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 		// Check if there was an error loading the request
@@ -132,6 +128,6 @@ func MountJWTController(service *goa.Service, ctrl JWTController) {
 		}
 		return ctrl.Unsecure(rctx)
 	}
-	service.Mux.Handle("GET", "/jwt/unsecure", ctrl.MuxHandler("unsecure", h, nil))
-	service.LogInfo("mount", "ctrl", "JWT", "action", "Unsecure", "route", "GET /jwt/unsecure")
+	service.Mux.Handle("GET", "/api/v1/jwt/unsecure", ctrl.MuxHandler("unsecure", h, nil))
+	service.LogInfo("mount", "ctrl", "JWT", "action", "Unsecure", "route", "GET /api/v1/jwt/unsecure")
 }

@@ -20,7 +20,7 @@ import (
 // SecureBasicPath computes a request path to the secure action of basic.
 func SecureBasicPath() string {
 
-	return fmt.Sprintf("/basic")
+	return fmt.Sprintf("/api/v1/basic")
 }
 
 // This action is secure with the basic_auth scheme
@@ -54,7 +54,7 @@ func (c *Client) NewSecureBasicRequest(ctx context.Context, path string) (*http.
 // UnsecureBasicPath computes a request path to the unsecure action of basic.
 func UnsecureBasicPath() string {
 
-	return fmt.Sprintf("/basic/unsecure")
+	return fmt.Sprintf("/api/v1/basic/unsecure")
 }
 
 // This action does not require auth

@@ -63,7 +63,7 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	}
 	tmp1 := new(SecureBasicCommand)
 	sub = &cobra.Command{
-		Use:   `basic ["/basic"]`,
+		Use:   `basic ["/api/v1/basic"]`,
 		Short: `This resource uses basic auth to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp1.Run(c, args) },
 	}
@@ -72,7 +72,7 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	command.AddCommand(sub)
 	tmp2 := new(SecureJWTCommand)
 	sub = &cobra.Command{
-		Use:   `jwt ["/jwt"]`,
+		Use:   `jwt ["/api/v1/jwt"]`,
 		Short: `This resource uses JWT to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp2.Run(c, args) },
 	}
@@ -86,7 +86,7 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	}
 	tmp3 := new(SigninJWTCommand)
 	sub = &cobra.Command{
-		Use:   `jwt ["/jwt/signin"]`,
+		Use:   `jwt ["/api/v1/jwt/signin"]`,
 		Short: `This resource uses JWT to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp3.Run(c, args) },
 	}
@@ -100,7 +100,7 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	}
 	tmp4 := new(UnsecureBasicCommand)
 	sub = &cobra.Command{
-		Use:   `basic ["/basic/unsecure"]`,
+		Use:   `basic ["/api/v1/basic/unsecure"]`,
 		Short: `This resource uses basic auth to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp4.Run(c, args) },
 	}
@@ -109,7 +109,7 @@ func RegisterCommands(app *cobra.Command, c *client.Client) {
 	command.AddCommand(sub)
 	tmp5 := new(UnsecureJWTCommand)
 	sub = &cobra.Command{
-		Use:   `jwt ["/jwt/unsecure"]`,
+		Use:   `jwt ["/api/v1/jwt/unsecure"]`,
 		Short: `This resource uses JWT to secure its endpoints`,
 		RunE:  func(cmd *cobra.Command, args []string) error { return tmp5.Run(c, args) },
 	}
@@ -278,7 +278,7 @@ func (cmd *SecureBasicCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/basic"
+		path = "/api/v1/basic"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -302,7 +302,7 @@ func (cmd *UnsecureBasicCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/basic/unsecure"
+		path = "/api/v1/basic/unsecure"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -326,7 +326,7 @@ func (cmd *SecureJWTCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/jwt"
+		path = "/api/v1/jwt"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -361,7 +361,7 @@ func (cmd *SigninJWTCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/jwt/signin"
+		path = "/api/v1/jwt/signin"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)
@@ -385,7 +385,7 @@ func (cmd *UnsecureJWTCommand) Run(c *client.Client, args []string) error {
 	if len(args) > 0 {
 		path = args[0]
 	} else {
-		path = "/jwt/unsecure"
+		path = "/api/v1/jwt/unsecure"
 	}
 	logger := goa.NewLogger(log.New(os.Stderr, "", log.LstdFlags))
 	ctx := goa.WithLogger(context.Background(), logger)

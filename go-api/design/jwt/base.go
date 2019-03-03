@@ -4,9 +4,13 @@ import (
 	. "github.com/goadesign/goa/design/apidsl"
 )
 
-var _ = API("jwt", func() { // API defines the microservice endpoint and
-	Title("jwt")       // other global properties. There should be one
-	Description("jwt") // and exactly one API definition appearing in
-	Scheme("http")     // the design.
+var _ = API("jwt", func() {
+	Title("jwt")
+	Description("jwt")
+	Version("v1")
+	Scheme("http")
+	BasePath("/api/v1")
+	Consumes("application/json")
+	Produces("application/json")
 	Host("localhost:8080")
 })

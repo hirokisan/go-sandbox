@@ -54,7 +54,7 @@ func SecureJWTOK(t goatest.TInterface, ctx context.Context, service *goa.Service
 		query["fail"] = sliceVal
 	}
 	u := &url.URL{
-		Path:     fmt.Sprintf("/jwt"),
+		Path:     fmt.Sprintf("/api/v1/jwt"),
 		RawQuery: query.Encode(),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
@@ -132,7 +132,7 @@ func SecureJWTUnauthorized(t goatest.TInterface, ctx context.Context, service *g
 		query["fail"] = sliceVal
 	}
 	u := &url.URL{
-		Path:     fmt.Sprintf("/jwt"),
+		Path:     fmt.Sprintf("/api/v1/jwt"),
 		RawQuery: query.Encode(),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
@@ -197,7 +197,7 @@ func SigninJWTNoContent(t goatest.TInterface, ctx context.Context, service *goa.
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/jwt/signin"),
+		Path: fmt.Sprintf("/api/v1/jwt/signin"),
 	}
 	req, err := http.NewRequest("POST", u.String(), nil)
 	if err != nil {
@@ -257,7 +257,7 @@ func SigninJWTUnauthorized(t goatest.TInterface, ctx context.Context, service *g
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/jwt/signin"),
+		Path: fmt.Sprintf("/api/v1/jwt/signin"),
 	}
 	req, err := http.NewRequest("POST", u.String(), nil)
 	if err != nil {
@@ -318,7 +318,7 @@ func UnsecureJWTOK(t goatest.TInterface, ctx context.Context, service *goa.Servi
 	// Setup request context
 	rw := httptest.NewRecorder()
 	u := &url.URL{
-		Path: fmt.Sprintf("/jwt/unsecure"),
+		Path: fmt.Sprintf("/api/v1/jwt/unsecure"),
 	}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

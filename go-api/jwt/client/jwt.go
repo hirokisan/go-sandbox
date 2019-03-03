@@ -21,7 +21,7 @@ import (
 // SecureJWTPath computes a request path to the secure action of jwt.
 func SecureJWTPath() string {
 
-	return fmt.Sprintf("/jwt")
+	return fmt.Sprintf("/api/v1/jwt")
 }
 
 // This action is secured with the jwt scheme
@@ -61,7 +61,7 @@ func (c *Client) NewSecureJWTRequest(ctx context.Context, path string, fail *boo
 // SigninJWTPath computes a request path to the signin action of jwt.
 func SigninJWTPath() string {
 
-	return fmt.Sprintf("/jwt/signin")
+	return fmt.Sprintf("/api/v1/jwt/signin")
 }
 
 // Creates a valid JWT
@@ -95,7 +95,7 @@ func (c *Client) NewSigninJWTRequest(ctx context.Context, path string) (*http.Re
 // UnsecureJWTPath computes a request path to the unsecure action of jwt.
 func UnsecureJWTPath() string {
 
-	return fmt.Sprintf("/jwt/unsecure")
+	return fmt.Sprintf("/api/v1/jwt/unsecure")
 }
 
 // This action does not require auth
