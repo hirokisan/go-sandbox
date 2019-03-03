@@ -24,13 +24,6 @@ var SuccessMedia = MediaType("application/vnd.goa.examples.security.success", fu
 	})
 })
 
-var _ = API("jwt", func() { // API defines the microservice endpoint and
-	Title("jwt")       // other global properties. There should be one
-	Description("jwt") // and exactly one API definition appearing in
-	Scheme("http")     // the design.
-	Host("localhost:8080")
-})
-
 // BasicAuth defines a security scheme using basic authentication. The scheme protects the "signin"
 // action used to create JWTs.
 var SigninBasicAuth = BasicAuthSecurity("SigninBasicAuth")
