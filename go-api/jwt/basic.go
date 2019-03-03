@@ -6,6 +6,7 @@ import (
 
 	"github.com/goadesign/goa"
 	"github.com/hirokisan/go-sandbox/go-api/jwt/app"
+	"github.com/hirokisan/go-sandbox/go-api/lib/util"
 )
 
 // NewBasicAuthMiddleware creates a middleware that checks for the presence of a basic auth header
@@ -19,6 +20,14 @@ func NewBasicAuthMiddleware() goa.Middleware {
 			if !ok {
 				goa.LogInfo(ctx, "failed basic auth")
 				return ErrUnauthorized("missing auth")
+			}
+
+			//pass := "sample"
+			ph := "$2a$10$z0GL0ObLuhKp8e1I9ZRKUOjB8S9qFlnI4kI7iXB4QcKJHnclPXNLq=MISSING"
+
+			err := util.PasswordVerify(ph, pass)
+			if err != nil {
+				panic(err)
 			}
 
 			// Proceed
