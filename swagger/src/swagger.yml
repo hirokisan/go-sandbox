@@ -1,0 +1,48 @@
+swagger: "2.0"
+info:
+  description: sample api
+  title: sample
+  version: 1.0.0
+consumes:
+- application/json
+produces:
+- application/json
+basePath: /api/v2
+schemes:
+- http
+paths:
+  /:
+    get:
+      tags:
+        - items
+      operationId: listItems
+      responses:
+        200:
+          description: list the items
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/item"
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+definitions:
+  item:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
